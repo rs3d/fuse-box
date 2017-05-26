@@ -4,6 +4,7 @@ import * as log from "fliplog";
 const prettysize = require("prettysize");
 const prettyTime = require("pretty-time");
 
+
 export class Log {
     public timeStart = process.hrtime();
     public printLog = true;
@@ -31,14 +32,14 @@ export class Log {
         let took = process.hrtime(this.timeStart) as [number, number];
 
         log
-          .text(`-> Finished `).echo()
-          .green(name).echo()
-          .green(` ${collection.cachedName || collection.name}`).echo()
-          .yellow(`took: ${prettyTime(took, "ms")}`).echo()
+            .text(`-> Finished `).echo()
+            .green(name).echo()
+            .green(` ${collection.cachedName || collection.name}`).echo()
+            .yellow(`took: ${prettyTime(took, "ms")}`).echo()
     }
 
     public echoHeader(str: string) {
-      log.yellow(` ${str} \n`).echo()
+        log.yellow(` ${str} \n`).echo()
     }
 
     public echo(str: string) {
@@ -46,23 +47,17 @@ export class Log {
     }
 
     public echoStatus(str: string) {
-      log
-        .text(`  → `).echo()
-        .cyan(str + "\n").echo()
+        log
+            .text(`  → `).echo()
+            .cyan(str + "\n").echo()
     }
 
     public echoInfo(str: string) {
-        cursor.green().write(`  → `)
-            .write(str);
-        cursor.write("\n");
-        cursor.reset();
+        log.preset('info').green(`  →\n ${str} \n`).echo()
     }
 
     public echoBreak() {
-        cursor.write("\n");
-        cursor.green().write(`  --------------`)
-        cursor.write("\n");
-        cursor.reset();
+        log.green(`\n  -------------- \n`).echo()
     }
 
     public echoWarning(str: string) {
@@ -78,14 +73,14 @@ export class Log {
         this.totalSize += bytes;
 
         log
-          .text(`└──`).echo()
-          .green(` ${collection.cachedName || collection.name}`).echo()
-          .yellow(` (${collection.dependencies.size} files,  ${size})\n`).echo()
+            .text(`└──`).echo()
+            .green(` ${collection.cachedName || collection.name}`).echo()
+            .yellow(` (${collection.dependencies.size} files,  ${size})\n`).echo()
 
         collection.dependencies.forEach(file => {
             if (!file.info.isRemoteFile) {
-              // should auto indent
-              log.text(`      ${file.info.fuseBoxPath}\n`).echo()
+                // should auto indent
+                log.text(`      ${file.info.fuseBoxPath}\n`).echo()
             }
         });
     }
@@ -99,10 +94,10 @@ export class Log {
         this.totalSize += bytes;
 
         log
-          .text(`└──`).echo()
-          .green(` ${collection.cachedName || collection.name}`).echo()
-          .text(` (${collection.dependencies.size} files)`).echo()
-          .yellow(` ${size} \n`).echo()
+            .text(`└──`).echo()
+            .green(` ${collection.cachedName || collection.name}`).echo()
+            .text(` (${collection.dependencies.size} files)`).echo()
+            .yellow(` ${size} \n`).echo()
     }
 
     public end(header?: string) {
@@ -111,9 +106,9 @@ export class Log {
     }
 
     public echoBundleStats(header: string, size: number, took: [number, number]) {
-      log
-        .text(`\n`).echo()
-        .yellow(`    Size: ${prettysize(size)}`).echo()
-        .text(` in ${prettyTime(took, "ms")}\n`).echo()
+        log
+            .text(`\n`).echo()
+            .yellow(`    Size: ${prettysize(size)}`).echo()
+            .text(` in ${prettyTime(took, "ms")}\n`).echo()
     }
 }
