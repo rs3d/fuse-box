@@ -85,11 +85,10 @@ export class FuseBox {
 
         this.context.debugMode = opts.debug !== undefined ? opts.debug : contains(process.argv, "--debug");
 
-        if (opts.modulesFolder) {
-            const normalizedHomeDir =  ensureUserPath(opts.homeDir);
-            this.context.customModulesFolder = ensureUserPath(opts.modulesFolder);
-            if (normalizedHomeDir.trim() === this.context.customModulesFolder.trim()) throw new Error(`modulesFolder can not be the same as homeDir`);
-        }
+            if (opts.modulesFolder) {
+                this.context.customModulesFolder = ensureUserPath(opts.modulesFolder);
+                if (homeDir && homeDir.trim() === this.context.customModulesFolder.trim())throw new Error(`modulesFolder can not be the same as homeDir`);
+            }
 
         if (opts.tsConfig) {
             this.context.tsConfig = opts.tsConfig;
